@@ -1,4 +1,4 @@
-**Numconvert** is a wrapper of internal number converters.
+**Numconvert** is a wrapper for internal number converters.
 
 
 
