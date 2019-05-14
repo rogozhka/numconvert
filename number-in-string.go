@@ -7,8 +7,9 @@ import (
 )
 
 //
-// NumberInString is an alias for
-// convert string to numbers
+// NumberInString is a string alias for
+// converting to numbers
+//
 // example: NumberInString("123").AsUint()
 //
 type NumberInString string
@@ -35,7 +36,15 @@ func (s NumberInString) AsUint64() (uint64, error) {
 
 	bi := big.NewInt(0)
 	if _, ok := bi.SetString(string(s), 10); !ok {
-		return 0, fmt.Errorf("Cannot convert to uint64 from: %v", s)
+		return 0, fmt.Errorf("cannot convert to bigInt | %v", s)
+	}
+
+	if "-0" == s {
+		return 0, nil
+	}
+
+	if '-' == []rune(s)[0] {
+		return 0, fmt.Errorf("negative overflow| %v", s)
 	}
 
 	return bi.Uint64(), nil
@@ -45,53 +54,55 @@ func (s NumberInString) AsInt64() (int64, error) {
 
 	bi := big.NewInt(0)
 	if _, ok := bi.SetString(string(s), 10); !ok {
-		return 0, fmt.Errorf("Cannot convert to int64 from: %v", s)
+		return 0, fmt.Errorf("cannot convert to int64 | %v", s)
 	}
 
 	return bi.Int64(), nil
 }
 
 func (s NumberInString) AsInt() (int, error) {
-	return s.AsInt32()
+	res, err := s.AsInt32()
+	return int(res), err
 }
 
-func (s NumberInString) AsInt32() (int, error) {
+func (s NumberInString) AsInt32() (int32, error) {
 
 	res, err := strconv.Atoi(string(s))
 	if err != nil {
-		return 0, fmt.Errorf("Cannot convert to int from: %v | %v", s, err)
+		return 0, fmt.Errorf("cannot convert to int32 | %v | %v", s, err)
 	}
 	if res > MaxInt32 || res < -MaxInt32 {
-		return 0, fmt.Errorf("Overflow maxInt32:%v", s)
+		return 0, fmt.Errorf("overflow maxInt32 | %v", s)
 	}
 
-	return res, nil
+	return int32(res), nil
 }
 
 func (s NumberInString) AsUint() (uint, error) {
-	return s.AsUint32()
+	res, err := s.AsUint32()
+	return uint(res), err
 }
-func (s NumberInString) AsUint32() (uint, error) {
+func (s NumberInString) AsUint32() (uint32, error) {
 
 	res, err := strconv.Atoi(string(s))
 	if err != nil {
 		return 0, fmt.Errorf("Cannot convert to uint from: %v | %v", s, err)
 	}
 	if res > MaxUint32 || res < 0 {
-		return 0, fmt.Errorf("Overflow maxUnt32:%v", s)
+		return 0, fmt.Errorf("overflow maxUnt32 | %v", s)
 	}
 
-	return uint(res), nil
+	return uint32(res), nil
 }
 
 func (s NumberInString) AsUint16() (uint, error) {
 
 	res, err := strconv.Atoi(string(s))
 	if err != nil {
-		return 0, fmt.Errorf("Cannot convert to uint from: %v | %v", s, err)
+		return 0, fmt.Errorf("Cannot convert to uint | %v | %v", s, err)
 	}
 	if res > MaxUint16 || res < 0 {
-		return 0, fmt.Errorf("Overflow maxUint16:%v", s)
+		return 0, fmt.Errorf("overflow maxUint16 | %v", s)
 	}
 
 	return uint(res), nil
@@ -110,28 +121,28 @@ func (s NumberInString) AsUint8() (uint, error) {
 	return uint(res), nil
 }
 
-func (s NumberInString) AsInt16() (int, error) {
+func (s NumberInString) AsInt16() (int16, error) {
 
 	res, err := strconv.Atoi(string(s))
 	if err != nil {
-		return 0, fmt.Errorf("Cannot convert to int from: %v | %v", s, err)
+		return 0, fmt.Errorf("cannot convert to int | %v | %v", s, err)
 	}
 	if res > MaxInt16 || res < -MaxInt16 {
-		return 0, fmt.Errorf("Overflow maxInt16:%v", s)
+		return 0, fmt.Errorf("overflow maxInt16 | %v", s)
 	}
 
-	return res, nil
+	return int16(res), nil
 }
 
-func (s NumberInString) AsInt8() (int, error) {
+func (s NumberInString) AsInt8() (int8, error) {
 
 	res, err := strconv.Atoi(string(s))
 	if err != nil {
-		return 0, fmt.Errorf("Cannot convert to int from: %v | %v", s, err)
+		return 0, fmt.Errorf("cannot convert to int | %v | %v", s, err)
 	}
 	if res > MaxInt8 || res < -MaxInt8 {
-		return 0, fmt.Errorf("Overflow maxInt8:%v", s)
+		return 0, fmt.Errorf("overflow maxInt8 | %v", s)
 	}
 
-	return res, nil
+	return int8(res), nil
 }
