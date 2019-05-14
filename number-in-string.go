@@ -170,3 +170,17 @@ func atoi(s NumberInString, tag string) (int, error) {
 	}
 	return res, nil
 }
+
+func convertErrorf(from interface{}, to string, err error) error {
+
+	var strErr string
+	if err != nil {
+		strErr = err.Error()
+	}
+
+	return fmt.Errorf("Cannot convert to | %s | %s | %s", to, from, strErr)
+}
+
+func overflowErrorf(from interface{}, subj string) error {
+	return fmt.Errorf("Overflow | %s | %s", subj, from)
+}
