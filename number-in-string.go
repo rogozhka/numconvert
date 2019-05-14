@@ -32,6 +32,46 @@ const (
 	MaxUint64 = 1<<64 - 1
 )
 
+func (s NumberInString) Int() (int, error) {
+	return s.AsInt()
+}
+
+func (s NumberInString) Uint() (uint, error) {
+	return s.AsUint()
+}
+
+func (s NumberInString) Uint64() (uint64, error) {
+	return s.AsUint64()
+}
+
+func (s NumberInString) Int64() (int64, error) {
+	return s.AsInt64()
+}
+
+func (s NumberInString) Int32() (int32, error) {
+	return s.AsInt32()
+}
+
+func (s NumberInString) Uint32() (uint32, error) {
+	return s.AsUint32()
+}
+
+func (s NumberInString) Int16() (int16, error) {
+	return s.AsInt16()
+}
+
+func (s NumberInString) Uint16() (uint16, error) {
+	return s.AsUint16()
+}
+
+func (s NumberInString) Int8() (int8, error) {
+	return s.AsInt8()
+}
+
+func (s NumberInString) Uint8() (uint8, error) {
+	return s.AsUint8()
+}
+
 func (s NumberInString) AsUint64() (uint64, error) {
 
 	bi := big.NewInt(0)

@@ -138,6 +138,59 @@ func TestNumberInString_AsInt(t *testing.T) {
 	}
 }
 
+func TestNumberInString_AsInt32(t *testing.T) {
+
+	type testCase struct {
+		s        string
+		expected int
+		e        error
+	}
+
+	cases := []testCase{
+		{
+			s:        "-2",
+			expected: -2,
+			e:        nil,
+		},
+		{
+			s:        "-9223372036854775807",
+			expected: 0,
+			e:        fmt.Errorf("must overflow int32"),
+		},
+		{
+			s:        "9223372036854775807",
+			expected: 0,
+			e:        fmt.Errorf("must overflow int32"),
+		},
+	}
+
+	for _, tc := range commonCases {
+
+		src := NumberInString(tc.s)
+		res, err := src.AsInt32()
+
+		if tc.err == nil {
+			assert.Nil(t, err, "err")
+			assert.Equal(t, int32(tc.expected), res, "res")
+		} else {
+			assert.NotNil(t, err, fmt.Sprintf("err | %v", tc.err))
+		}
+	}
+
+	for _, s := range cases {
+
+		src := NumberInString(s.s)
+		res, err := src.AsInt32()
+
+		if s.e == nil {
+			assert.Nil(t, err, "err")
+			assert.Equal(t, int32(s.expected), res, "res")
+		} else {
+			assert.NotNil(t, err, fmt.Sprintf("err | %v", s.e))
+		}
+	}
+}
+
 func TestNumberInString_AsInt64(t *testing.T) {
 
 	type testCase struct {
@@ -293,6 +346,68 @@ func TestNumberInString_AsUint(t *testing.T) {
 	}
 }
 
+func TestNumberInString_AsUint32(t *testing.T) {
+
+	type testCase struct {
+		s   string
+		exp uint
+		e   error
+	}
+
+	cases := []testCase{
+		{
+			s:   "4294967295",
+			exp: 4294967295,
+			e:   nil,
+		},
+		{
+			s:   "9223372036854775807",
+			exp: 0,
+			e:   fmt.Errorf("Overflow maxUint32"),
+		},
+		{
+			s:   "-1",
+			exp: 0,
+			e:   fmt.Errorf("Overflow maxUint32"),
+		},
+		{
+			s:   "-2",
+			exp: 0,
+			e:   fmt.Errorf("Overflow maxUint32"),
+		},
+		{
+			s:   "-10",
+			exp: 0,
+			e:   fmt.Errorf("Overflow maxUint32"),
+		},
+	}
+
+	for _, s := range commonCases {
+
+		src := NumberInString(s.s)
+		res, err := src.AsUint32()
+
+		if s.err == nil {
+			assert.Nil(t, err, "err")
+			assert.Equal(t, uint32(s.expected), res, "res")
+		} else {
+			assert.NotNil(t, err, "err")
+		}
+	}
+	for _, s := range cases {
+
+		src := NumberInString(s.s)
+		res, err := src.AsUint32()
+
+		if s.e == nil {
+			assert.Nil(t, err, "err")
+			assert.Equal(t, uint32(s.exp), res, "res")
+		} else {
+			assert.NotNil(t, err, "err")
+		}
+	}
+}
+
 func TestNumberInString_AsInt8(t *testing.T) {
 
 	type testCase struct {
@@ -358,4 +473,36 @@ func TestNumberInString_AsInt8(t *testing.T) {
 			assert.NotNil(t, err, "err")
 		}
 	}
+}
+
+func TestNumberInString_Int(t *testing.T) {
+	TestNumberInString_AsInt(t)
+}
+
+func TestNumberInString_Uint(t *testing.T) {
+	TestNumberInString_AsUint(t)
+}
+
+func TestNumberInString_Int64(t *testing.T) {
+	TestNumberInString_AsInt64(t)
+}
+
+func TestNumberInString_Uint64(t *testing.T) {
+	TestNumberInString_AsUint64(t)
+}
+
+func TestNumberInString_Int32(t *testing.T) {
+	TestNumberInString_AsInt32(t)
+}
+
+func TestNumberInString_Uint32(t *testing.T) {
+	TestNumberInString_AsUint32(t)
+}
+
+func TestNumberInString_Int8(t *testing.T) {
+	TestNumberInString_AsInt8(t)
+}
+
+func TestNumberInString_Uint8(t *testing.T) {
+	TestNumberInString_AsInt8(t)
 }
