@@ -1,5 +1,6 @@
 **Numconvert** is a wrapper for internal number converters.
 
+[![Build Status](https://travis-ci.org/rogozhka/numconvert.svg?branch=master)](https://travis-ci.org/rogozhka/numconvert)
 
 
 ## Install
